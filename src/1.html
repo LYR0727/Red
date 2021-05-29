@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腾讯天气</title>
+    <link rel="shortcut icon" href="//mat1.gtimg.com/www/icon/favicon2.ico">
+    <link rel="apple-touch-icon" href="//mat1.gtimg.com/pingjs/ext2020/test2017/icon.png">
+    <link type="text/css" rel="stylesheet" href="2.css" />
+    <script type="text/javascript" async src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="//pingjs.qq.com/h5/stats.js?v2.0.4" name="MTAH5" sid="500527948" cid="500582016"></script>
+</head>
+<style>
+    body,
+    html {
+        font: 12px/18px Simsun, Helvetica, Arial, sans-serif;
+    }
+
+    body,
+    button,
+    dd,
+    div,
+    dl,
+    dt,
+    form,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    input,
+    li,
+    ol,
+    p,
+    td,
+    textarea,
+    th,
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    #sec-main #btn-voice,
+    #sec-main #link-back {
+        position: absolute;
+        height: 22px;
+        width: 22px;
+        top: 15px;
+    }
+
+    #sec-main #txt-location #icon-location {
+        display: inline-block;
+        height: 16px;
+        width: 16px;
+        vertical-align: middle;
+        margin-top: -2px;
+        margin-right: 4px;
+        background-size: 16px;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQogICAgPGRlZnM+DQogICAgICAgIDxwYXRoIGlkPSJhIiBkPSJNMCA2LjJWMGgxMHYxMi40SDB6IiAvPg0KICAgIDwvZGVmcz4NCiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyIDEpIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPg0KICAgICAgICA8bWFzayBpZD0iYiIgZmlsbD0iI2ZmZiI+DQogICAgICAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNhIiAvPg0KICAgICAgICA8L21hc2s+DQogICAgICAgIDxwYXRoIGQ9Ik01IDdjLTEuMTA0IDAtMi0uODk2LTItMnMuODk2LTIgMi0yIDIgLjg5NiAyIDItLjg5NiAyLTIgMm01LTJjMC0yLjc2LTIuMjM4LTUtNS01UzAgMi4yNCAwIDVjMCAxLjEzLjM5IDIuMTYyIDEuMDIyIDNIMWwzLjIyIDQuMDIzYy40LjUgMS4xNi41IDEuNTYgMEw5IDhoLS4wMjJDOS42MSA3LjE2MiAxMCA2LjEzIDEwIDUiIGZpbGw9IiNGRkYiIG1hc2s9InVybCgjYikiIC8+DQogICAgPC9nPg0KPC9zdmc+);
+    }
+
+    #sec-main #txt-location {
+        height: 16px;
+        line-height: 16px;
+        width: 76%;
+        margin: 18px 12% 6px;
+        font-size: 16px;
+        color: #fff;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    #sec-main #btn-share {
+        position: absolute;
+        right: 8px;
+        top: 15px;
+        width: 22px;
+        height: 22px;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQogICAgPGRlZnM+DQogICAgICAgIDxwYXRoIGlkPSJhIiBkPSJNNi44OCAwSDEzdjEyLjI0MkguNzZWMHoiIC8+DQogICAgPC9kZWZzPg0KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+DQogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcgMikiPg0KICAgICAgICAgICAgPG1hc2sgaWQ9ImIiIGZpbGw9IiNmZmYiPg0KICAgICAgICAgICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI2EiIC8+DQogICAgICAgICAgICA8L21hc2s+DQogICAgICAgICAgICA8cGF0aCBkPSJNMTAuOTkgMEg2Yy0uNTUzIDAtMSAuNDQ4LTEgMXMuNDQ3IDEgMSAxaDMuNWMuMDMzIDAgLjA2NC4wMDguMDk2LjAxLS4wMTguMDE2LS4wNDMuMDIyLS4wNi4wNEwxLjA1IDEwLjUzNWMtLjM5LjM5LS4zOSAxLjAyNiAwIDEuNDE0LjM5LjM5IDEuMDI1LjM5IDEuNDE0IDBsOC40ODYtOC40ODZjLjAxOC0uMDE4LjAyMy0uMDQyLjA0LS4wNi4wMDIuMDMyLjAxLjA2My4wMS4wOTZWN2MwIC41NTIuNDQ3IDEgMSAxIC41NTIgMCAxLS40NDggMS0xVjIuMDFDMTMgLjkgMTIuMSAwIDEwLjk5IDAiIGZpbGw9IiNGRkYiIG1hc2s9InVybCgjYikiIC8+DQogICAgICAgIDwvZz4NCiAgICAgICAgPHBhdGggZD0iTTE5IDEyYy0uNTUzIDAtMSAuNDQ3LTEgMXYzLjVjMCAuODI4LS42NzIgMS41LTEuNSAxLjVoLTExYy0uODMgMC0xLjUtLjY3Mi0xLjUtMS41di0xMUM0IDQuNjcgNC42NyA0IDUuNSA0SDljLjU1MiAwIDEtLjQ0OCAxLTFzLS40NDgtMS0xLTFINUMzLjM0MyAyIDIgMy4zNDMgMiA1djEyYzAgMS42NTcgMS4zNDMgMyAzIDNoMTJjMS42NTcgMCAzLTEuMzQzIDMtM3YtNGMwLS41NTMtLjQ0Ny0xLTEtMSIgZmlsbD0iI0ZGRiIgLz4NCiAgICA8L2c+DQo8L3N2Zz4=);
+    }
+
+    #sec-main #link-back {
+        left: 8px;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQogICAgPGRlZnM+DQogICAgICAgIDxwYXRoIGlkPSJhIiBkPSJNMTAgMThIMFYwaDEwdjE4eiIgLz4NCiAgICA8L2RlZnM+DQogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNiAyKSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICAgICAgPG1hc2sgaWQ9ImIiIGZpbGw9IiNmZmYiPg0KICAgICAgICAgICAgPHVzZSB4bGluazpocmVmPSIjYSIgLz4NCiAgICAgICAgPC9tYXNrPg0KICAgICAgICA8cGF0aCBkPSJNMi43MzggMTAuMDA2Yy0uNjA2LS41NTUtLjYwNi0xLjQ1NyAwLTIuMDEybDYuOTYtNi4zNzVjLjQwMy0uMzcuNDAzLS45NzQgMC0xLjM0My0uNDAzLS4zNy0xLjA2My0uMzctMS40NjUgMEwuOTA2IDYuOTg3Yy0xLjIwOCAxLjEwNy0xLjIwOCAyLjkyIDAgNC4wMjZsNy4zMjcgNi43MWMuNDAyLjM3IDEuMDYyLjM3IDEuNDY1IDBzLjQwMy0uOTczIDAtMS4zNDJsLTYuOTYtNi4zNzR6IiBmaWxsPSIjRkZGIiBtYXNrPSJ1cmwoI2IpIiAvPg0KICAgIDwvZz4NCjwvc3ZnPg==);
+    }
+
+    #sec-main.C9 {
+        background-image: linear-gradient(-90deg, #50ade8, #7ae0fa);
+        background-image: -webkit-linear-gradient(-90deg, #50ade8, #7ae0fa);
+    }
+
+    #sec-main {
+        height: 470px;
+        background-image: linear-gradient(-90deg, #3bbcff, #4af4ff);
+        background-image: -webkit-linear-gradient(-90deg, #3bbcff, #4af4ff);
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+    }
+
+    #sec-main #btn-voice,
+    #sec-main #link-back {
+        position: absolute;
+        height: 22px;
+        width: 22px;
+        top: 15px;
+    }
+
+    #sec-main #txt-location {
+        height: 16px;
+        line-height: 16px;
+        width: 76%;
+        margin: 18px 12% 6px;
+        font-size: 16px;
+        color: #fff;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .p {
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    }
+
+    #sec-main #txt-location #icon-location {
+        display: inline-block;
+        height: 16px;
+        width: 16px;
+        vertical-align: middle;
+        margin-top: -2px;
+        margin-right: 4px;
+        background-size: 16px;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQogICAgPGRlZnM+DQogICAgICAgIDxwYXRoIGlkPSJhIiBkPSJNMCA2LjJWMGgxMHYxMi40SDB6IiAvPg0KICAgIDwvZGVmcz4NCiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyIDEpIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPg0KICAgICAgICA8bWFzayBpZD0iYiIgZmlsbD0iI2ZmZiI+DQogICAgICAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNhIiAvPg0KICAgICAgICA8L21hc2s+DQogICAgICAgIDxwYXRoIGQ9Ik01IDdjLTEuMTA0IDAtMi0uODk2LTItMnMuODk2LTIgMi0yIDIgLjg5NiAyIDItLjg5NiAyLTIgMm01LTJjMC0yLjc2LTIuMjM4LTUtNS01UzAgMi4yNCAwIDVjMCAxLjEzLjM5IDIuMTYyIDEuMDIyIDNIMWwzLjIyIDQuMDIzYy40LjUgMS4xNi41IDEuNTYgMEw5IDhoLS4wMjJDOS42MSA3LjE2MiAxMCA2LjEzIDEwIDUiIGZpbGw9IiNGRkYiIG1hc2s9InVybCgjYikiIC8+DQogICAgPC9nPg0KPC9zdmc+);
+    }
+
+    #sec-main #txt-temperature {
+        font-size: 62px;
+        color: #fff;
+        line-height: 62px;
+        height: 62px;
+        margin-top: 66px;
+        position: relative;
+    }
+
+    * {
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        -webkit-text-size-adjust: none;
+    }
+
+    .container {
+        display: block;
+        max-width: 500px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    #sec-main #ct-wind-humidity {
+        margin-top: 10px;
+        height: 14px;
+        position: relative;
+    }
+
+    #sec-main #txt-weather {
+        font-size: 22px;
+        color: #fff;
+        line-height: 22px;
+        height: 22px;
+        margin-top: 8px;
+    }
+
+
+    ::selection {
+        background-color: #690;
+        color: #fff;
+    }
+
+    #sec-main #txt-tips {
+        font-size: 16px;
+        color: #fff;
+        line-height: 1.5;
+        height: 16px;
+        margin: 50px 60px 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    #sec-main .ct-aqi.level1 {
+        background-color: #a3d765;
+    }
+
+    #sec-main .ct-aqi {
+        box-shadow: 0 1px 1px 0 rgb(0 0 0 / 12%);
+        height: 44px;
+        padding: 8px 12px;
+        position: absolute;
+        border-radius: 8px;
+        top: 67px;
+        left: 8px;
+        background: #a3d765;
+        z-index: 2;
+    }
+
+    body,
+    button,
+    dd,
+    div,
+    dl,
+    dt,
+    form,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    input,
+    li,
+    ol,
+    p,
+    td,
+    textarea,
+    th,
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    div,
+    footer,
+    li,
+    ol,
+    p,
+    section,
+    ul {
+        box-sizing: border-box;
+    }
+
+    #sec-main .ct-aqi #til {
+        opacity: .8;
+        font-size: 12px;
+        color: #fff;
+        line-height: 12px;
+        height: 12px;
+        margin-bottom: 3px;
+    }
+
+    #sec-main .ct-aqi #value {
+        margin-top: 2px;
+        font-size: 12px;
+        color: #fff;
+        height: 14px;
+        line-height: 14px;
+    }
+
+
+    #sec-main #ct-wind-humidity .txt {
+        height: 14px;
+        line-height: 14px;
+        font-size: 14px;
+        color: #fff;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        animation-fill-mode: forwards;
+        -webkit-animation-fill-mode: forwards;
+        animation-duration: .75s;
+        -webkit-animation-duration: .75s;
+        animation-name: wind-hide;
+        -webkit-animation-name: wind-hide;
+    }
+
+    #sec-main #layer1 {
+        z-index: 3;
+        background: url(../images/bg02.png) no-repeat center center;
+    }
+
+    #sec-main #layer2 {
+        z-index: 2;
+        background: url(../images/bg03.png) no-repeat center center;
+    }
+
+    #sec-main #layer3 {
+        z-index: 1;
+        background: url(../images/bg04.png) no-repeat center center;
+    }
+
+    #sec-main #ct-landscape .layer {
+        content: "";
+        left: -6%;
+        right: -6%;
+        background-position: bottom;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+    }
+
+    #sec-main #ct-landscape .layer {
+        position: absolute;
+        bottom: 0;
+        top: 60px;
+    }
+
+    #sec-main #txt-tips {
+        font-size: 16px;
+        color: #fff;
+        line-height: 1.5;
+        height: 16px;
+        margin: 50px 60px 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    #sec-tomorrow .item .top .temperature {
+        float: right;
+    }
+
+    div,
+    footer,
+    li,
+    ol,
+    p,
+    section,
+    ul {
+        box-sizing: border-box;
+    }
+
+    #sec-tomorrow .item {
+        float: left;
+        width: 50%;
+        height: 52px;
+        font-size: 14px;
+        color: #434343;
+        line-height: 14px;
+        padding: 0 20px;
+    }
+
+    .div.item {
+        width: 207.2px;
+        height: 52px;
+    }
+
+
+    #sec-tomorrow .item .bottom .logo {
+        float: right;
+        height: 22px;
+        width: 22px;
+        margin-top: -15px;
+    }
+
+    .img {
+        border: none;
+        display: block;
+    }
+
+    #sec-tomorrow {
+        background: #fff;
+        height: 103px;
+        padding-top: 26px;
+        border-bottom: 1px solid #e4e4e4;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .container {
+        display: block;
+        max-width: 500px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    #sec-tomorrow .item {
+        float: left;
+        width: 50%;
+        height: 52px;
+        font-size: 14px;
+        color: #434343;
+        line-height: 14px;
+        padding: 0 20px;
+    }
+
+    #sec-tomorrow .item .top {
+        height: 12px;
+        margin-bottom: 13px;
+    }
+
+    #sec-tomorrow .item .top .date {
+        float: left;
+    }
+
+    #sec-tomorrow .item .top .temperature {
+        float: right;
+    }
+
+    #sec-tomorrow .item .top {
+        height: 12px;
+        margin-bottom: 13px;
+    }
+
+    #sec-hours {
+        height: 136px;
+        border-bottom: 15px solid #e4e4e4;
+        background-color: #fff;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 10px;
+        padding-top: 10px;
+        margin-left: -30px;
+    }
+
+    .container {
+        display: block;
+        max-width: 500px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    #sec-hours #ls-hours-weather .item .icon {
+        height: 24px;
+        width: 24px;
+        display: block;
+        margin: 15px auto;
+    }
+
+    #sec-hours #ls-hours-weather .item {
+        float: left;
+        width: 2.083%;
+        text-align: center;
+        position: relative;
+    }
+
+    img {
+        border: none;
+        display: block;
+        width: 30px;
+    }
+
+    ol {
+        display: block;
+        list-style-type: decimal;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+
+    }
+
+
+    ol,
+    ul {
+        list-style: none;
+    }
+
+    #sec-hours #ls-hours-weather {
+        width: 100%;
+    }
+
+    div,
+    footer,
+    li,
+    ol,
+    p,
+    section,
+    ul {
+        box-sizing: border-box;
+    }
+
+    #sec-tomorrow {
+        background: #fff;
+        height: 103px;
+        padding-top: 26px;
+        border-bottom: 15px solid #e4e4e4;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .container {
+        display: block;
+        max-width: 500px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    #sec-tomorrow:after {
+        content: "";
+        position: absolute;
+        width: 1px;
+        height: 52px;
+        background-color: #f0f0f0;
+        left: 50%;
+        top: 26px;
+    }
+
+    ::selection {
+        background-color: #690;
+        color: #fff;
+    }
+
+
+    #sec-days {
+        border-top: 1px solid #e4e4e4;
+        border-bottom: 15px solid #e4e4e4;
+        background-color: #fff;
+        height: 280px;
+        padding-top: 25px;
+        margin-bottom: 10px;
+        position: relative;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .container {
+        display: block;
+        max-width: 500px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    #sec-days #ls-days:after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+    }
+
+    ::selection {
+        background-color: #690;
+        color: #fff;
+    }
+
+    #sec-days #ls-days .item {
+        float: left;
+        text-align: center;
+    }
+
+    #sec-days #ls-days .item:first-child .date,
+    #sec-days #ls-days .item:first-child .day,
+    #sec-days #ls-days .item:first-child .weather,
+    #sec-days #ls-days .item:first-child .wind {
+        color: #b2b2b2;
+    }
+
+    #sec-days #ls-days .item:first-child .date,
+    #sec-days #ls-days .item:first-child .day,
+    #sec-days #ls-days .item:first-child .weather,
+    #sec-days #ls-days .item:first-child .wind {
+        color: #b2b2b2;
+    }
+
+    #sec-days #ls-days .item .date,
+    #sec-days #ls-days .item .day {
+        font-size: 12px;
+        color: #999;
+        line-height: 12px;
+        height: 12px;
+    }
+
+    #sec-days #ls-days .item .icon {
+        width: 24px;
+        height: 24px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    #sec-days #ls-days .item .icon {
+        width: 24px;
+        height: 24px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    #sec-days #ls-days .item {
+        float: left;
+        text-align: center;
+    }
+
+    .li {
+        display: list-item;
+    }
+
+    #sec-living #living-scroll .ls-living .item .icon_jiaotong {
+        background-image: url(../images/limit.png);
+    }
+
+    #sec-living #living-scroll .ls-living .item .icon_yusan {
+        background-image: url(../images/air.png);
+    }
+
+    .div1 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .day {
+        font-size: 12px;
+        color: #999;
+        line-height: 5px;
+        height: 12px;
+    }
+
+    .weather {
+        font-size: 14px;
+        color: #434343;
+        line-height: 40px;
+        height: 12px;
+    }
+
+    .date {
+        font-size: 12px;
+        color: #999;
+        line-height: 6px;
+        height: 12px;
+    }
+
+    .icon {
+        margin-top: 30px;
+    }
+
+    .div3 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    #sec-living {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+</style>
+
+<body class style="top:0px;">
+    <div id="root">
+        <section id="sec-main" main="container C9 day">
+            <a id="link-back" class href="javascript:;"></a>
+            <a id="btn-share" class href="javascript:;"></a>
+            <a id="appShort" class="none" href="javascript:;"></a>
+            <audio id="weather-audio"></audio>
+            <p id="txt-location">
+                <span id="iocn-location"></span>
+                重庆市 南岸区
+            </p>
+            <div id="ct-pub">
+                <p class="txt hide"></p>
+
+            </div>
+            <p id="txt-temperature" class="positive">
+                19°
+            </p>
+            <p id="txt-weather">多云</p>
+            <div id="ct-wind-humidity">
+                <p class=" txt">西北风 1级</p>
+                <p class="show txt"></p>
+            </div>
+            <p id="txt-tips">今天有小雨，出门记得带伞~</p>
+            <div id="ct-landscape">
+                <div class="layer" id="layer1" style="transform: translate3d(0px,0px,0px);"></div>
+                <div class="layer" id="layer2" style="transform: translate3d(0px,0px,0px);"></div>
+                <div class="layer" id="layer3" style="transform: translate3d(0px,0px,0px);"></div>
+            </div>
+            <div class="ct-aqi leve11" date-boss="aqi">
+                <p id="til">37</p>
+                <p id="value">优</p>
+            </div>
+            <div class="ct-pop-window">
+                <div class="bg-cover"></div>
+                <div class="ct-window">
+                    <h3 class="title"></h3>
+                    <p class="txt-info"> </p>
+
+
+                </div>
+            </div>
+        </section>
+        <section id="sec-tomorrow" class="container">
+            <div class="item">
+                <div class="top">
+                    <p class="date">今天</p>
+                    <p class="temperature">25/20°</p>
+                </div>
+                <div class="bottom">
+                    <p class="weather">小雨</p>
+                    <img src="//mat1.gtimg.com/pingjs/ext2020/weather/mobile2.0/assets/weather/day/07.svg" class="logo">
+                </div>
+            </div>
+            <div class="item">
+                <div class="top">
+                    <p class="date">明天</p>
+                    <p class="temperature">28/20°</p>
+                </div>
+                <div class="bottom">
+                    <p class="weather">多云</p>
+                    <img src="//mat1.gtimg.com/pingjs/ext2020/weather/mobile2.0/assets/weather/day/01.svg" class="logo">
+                </div>
+            </div>
+        </section>
+        <section id="sec-hours" class="container">
+            <div id="ct-scroll" style="width: 400%;">
+                <ol id="ls-hours-weather">
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">10:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">11:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">12:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            24°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">13:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            25°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">14:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            25°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">15:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            25°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">16:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            25°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">17:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">18:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">19:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">19:00</p>
+                        <img src="../images/set.svg" class="icon">
+                        <p class="txt-degree positive">
+                            日落
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">20:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">21:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">22:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">23:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+                    <li class="item" style="width: 3.84315%;">
+                        <p class="txt-time">24:00</p>
+                        <img src="../images/01.svg" class="icon">
+                        <p class="txt-degree positive">
+                            23°
+                        </p>
+                    </li>
+
+
+
+
+                </ol>
+            </div>
+        </section>
+        <section id="sec-days" class="container">
+            <div class="div1">
+                <span>
+                    <p class="day">昨天</p>
+                    <p class="date">05/28</p>
+                    <p class="weather">阴</p>
+                    <img src="../images/111.svg" class="icon">
+                </span>
+                <span>
+                    <p class="day">今天</p>
+                    <p class="date">05/29</p>
+                    <p class="weather">小雨</p>
+                    <img src="../images/小雨.svg" class="icon">
+                </span>
+                <span>
+                    <p class="day">明天</p>
+                    <p class="date">05/30</p>
+                    <p class="weather">阴</p>
+                    <img src="../images/111.svg" class="icon">
+                </span>
+                <span>
+                    <p class="day">后天</p>
+                    <p class="date">06/01</p>
+                    <p class="weather">晴</p>
+                    <img src="../images/00.svg" class="icon">
+                </span>
+
+                <span>
+                    <p class="day">周二</p>
+                    <p class="date">06/02</p>
+                    <p class="weather">多云</p>
+                    <img src="../images/01 (1).svg" class="icon">
+                </span>
+                <span>
+                    <p class="day">昨天</p>
+                    <p class="date">05/28</p>
+                    <p class="weather">阴</p>
+                    <img src="../images/111.svg" class="icon">
+                </span>
+            </div>
+            <div class="div2">
+                <p1>折线图</p1>
+            </div>
+            <div class="div3">
+                <span>
+
+                    <p class="weather">阴</p>
+                    <img src="../images/111.svg" class="icon">
+                    <p class="day">昨天</p>
+                    <p class="date">05/28</p>
+                </span>
+                <span>
+
+                    <p class="weather">阴</p>
+                    <img src="../images/111.svg" class="icon">
+                    <p class="day">昨天</p>
+                    <p class="date">05/28</p>
+
+                </span>
+                <span>
+
+                    <p class="weather">阴</p>
+                    <img src="../images/7777.svg" class="icon">
+                    <p class="day">昨天</p>
+                    <p class="date">05/28</p>
+                </span>
+                <span>
+
+                    <p class="weather">阴</p>
+                    <img src="../images/duoyun.svg" class="icon">
+                    <p class="day">昨天</p>
+                    <p class="date">05/28</p>
+
+                </span>
+
+                <span>
+
+                    <p class="weather">阴</p>
+                    <img src="../images/duoyun.svg" class="icon">
+                    <p class="day">多云</p>
+                    <p class="date">05/28</p>
+                </span>
+                <span>
+
+                    <p class="weather">阴</p>
+                    <img src="../images/小雨.svg" class="icon">
+                    <p class="day">昨天</p>
+                    <p class="date">05/28</p>
+                </span>
+            </div>
+        </section>
+
+
+        <section id="sec-living" class="container">
+             <div class="11">
+                 <span class="111">
+                     <img src="../images/cloth.png">
+        
+                 </span>
+                 <span class="111">
+
+                 </span>
+                 <span class="111">
+
+                 </span>
+                 <span class="111">
+
+                 </span>
+                 
+             </div>
+             <div class="22"></div>
+        </section>
+    </div>
+    <script>
+        !function (e) { function n(t) { if (r[t]) return r[t].exports; var o = r[t] = { i: t, l: !1, exports: {} }; return e[t].call(o.exports, o, o.exports, n), o.l = !0, o.exports } var t = window.webpackJsonp; window.webpackJsonp = function (r, c, i) { for (var a, u, f, d = 0, l = []; d < r.length; d++)u = r[d], o[u] && l.push(o[u][0]), o[u] = 0; for (a in c) Object.prototype.hasOwnProperty.call(c, a) && (e[a] = c[a]); for (t && t(r, c, i); l.length;)l.shift()(); if (i) for (d = 0; d < i.length; d++)f = n(n.s = i[d]); return f }; var r = {}, o = { 4: 0 }; n.e = function (e) { function t() { a.onerror = a.onload = null, clearTimeout(u); var n = o[e]; 0 !== n && (n && n[1](new Error("Loading chunk " + e + " failed.")), o[e] = void 0) } var r = o[e]; if (0 === r) return new Promise(function (e) { e() }); if (r) return r[2]; var c = new Promise(function (n, t) { r = o[e] = [n, t] }); r[2] = c; var i = document.getElementsByTagName("head")[0], a = document.createElement("script"); a.type = "text/javascript", a.charset = "utf-8", a.async = !0, a.timeout = 12e4, n.nc && a.setAttribute("nonce", n.nc), a.src = n.p + "" + e + "." + { 0: "045e457f6f90fdd1b154", 1: "c0c2d58ee4fdad1c9a71", 2: "40eb310e2d317f7723fd", 3: "fc03ce870e52c4bdf7dd" }[e] + ".js"; var u = setTimeout(t, 12e4); return a.onerror = a.onload = t, i.appendChild(a), c }, n.m = e, n.c = r, n.d = function (e, t, r) { n.o(e, t) || Object.defineProperty(e, t, { configurable: !1, enumerable: !0, get: r }) }, n.n = function (e) { var t = e && e.__esModule ? function () { return e.default } : function () { return e }; return n.d(t, "a", t), t }, n.o = function (e, n) { return Object.prototype.hasOwnProperty.call(e, n) }, n.p = "//mat1.gtimg.com/pingjs/ext2020/tianqi/mobilev2/", n.oe = function (e) { throw e } }([]);
+    </script>
+    <script src="//mat1.gtimg.com/libs/t/finalboss-lite/0.1.4/finalboss-lite.min.js"></script>
+
+</body>
+
+</html>
